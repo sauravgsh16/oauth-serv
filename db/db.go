@@ -34,5 +34,6 @@ func NewDB() (*gorm.DB, error) {
 
 	// TODO: set max idle and open connections
 
+	db.LogMode(true)
 	return db, nil
 }

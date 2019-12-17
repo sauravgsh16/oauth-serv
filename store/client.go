@@ -30,12 +30,12 @@ type clientStore struct {
 }
 
 func (cs *clientStore) FindByID(id string) (*domain.Client, error) {
-	c := new(domain.Client)
-	found := cs.db.Where("client_id = ?", id).Scan(c).RecordNotFound()
-	if !found {
+	var c domain.Client
+	notfound := cs.db.Where("client_id = ?", id).First(&c).RecordNotFound()
+	if notfound {
 		return nil, ErrClientNotFound
 	}
-	return c, nil
+	return &c, nil
 }
 
 func (cs *clientStore) ClientPresent(id string) bool {

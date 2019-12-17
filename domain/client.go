@@ -20,8 +20,8 @@ type Client struct {
 func NewClient(clientID, secret, redirectURI string) *Client {
 	return &Client{
 		Common: Common{
-			ID:      fmt.Sprintf("%s", uuid.NewV4()),
-			Created: time.Now().UTC().UnixNano(),
+			ID:        fmt.Sprintf("%s", uuid.Must(uuid.NewV4())),
+			CreatedAt: time.Now().UTC().UnixNano(),
 		},
 		ClientID:    clientID,
 		Secret:      secret,
