@@ -1,0 +1,31 @@
+
+1) http://localhost:8080/web/authorize?
+    client_id=test_client_1&
+    redirect_uri=https%3A%2F%2Fwww.example.com&
+    response_type=code&
+    state=somestate&
+    scope=read_write
+
+2) /web/login GET
+
+http://localhost:8080/web/login?client_id=test_client_1&
+    login_redirect_uri=%2Fweb%2Fauthorize&
+    redirect_uri=https%3A%2F%2Fwww.example.com&
+    response_type=code&
+    scope=read_write&
+    state=somestate
+
+3) /web/login POST
+    http://localhost:8080/web/authorize?client_id=test_client_1&
+    login_redirect_uri=%2Fweb%2Fauthorize&
+    redirect_uri=https%3A%2F%2Fwww.example.com&
+    response_type=code&
+    scope=read_write&
+    state=somestate
+
+4) GET /web/authorize
+
+5) POST /web/authorize
+
+6) RedirectURI
+

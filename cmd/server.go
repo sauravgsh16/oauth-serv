@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -22,14 +23,21 @@ func RunServer() error {
 
 	router := mux.NewRouter()
 
-	// init layers
-	store := store.NewClientStore(db)
-	service := service.NewClientService(store)
-	handler := handler.NewClientHandler(service)
+	// init client layers
+	cStore := store.NewClientStore(db)
+	cService := service.NewClientService(cStore)
+	cHandler := handler.NewClientHandler(cService)
 
-	// TODO: WRAP WITH HANDLERS WITH ServeHTTP
+	// init user layers
+	uStore := store.NewUserStore(db)
+	uService := service.NewUserService(uStore)
+	uHandler := handler.NewUserHandler(uService)
+
+	// TODO: WRAP ALL HANDLERS WITH ServeHTTP
 	// TODO: handler interface
-	router.HandleFunc("/register", handler.Register).Methods("POST")
+	router.HandleFunc("/client/register", cHandler.Register).Methods("POST")
+	router.HandleFunc("/user/register", uHandler.Register).Methods("POST")
+	router.HandleFunc("/user/login", uHandler.Login).Methods("POST")
 
 	srv := &http.Server{
 		Handler:      router,
@@ -37,6 +45,8 @@ func RunServer() error {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
+	fmt.Println("Running server on port: 8080 .....")
 	if err := srv.ListenAndServe(); err != nil {
 		log.Printf("Error: %+v", err)
 	}
