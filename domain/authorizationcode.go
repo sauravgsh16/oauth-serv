@@ -23,12 +23,14 @@ type AuthorizationCode struct {
 func NewAuthorizationCode(clientID, userID, redirectURI, scope string, expiresIn int64) *AuthorizationCode {
 	return &AuthorizationCode{
 		Common: Common{
-			ID:        fmt.Sprintf("%s", uuid.Must(uuid.NewV4())),
+			//ID:        fmt.Sprintf("%s", uuid.Must(uuid.NewV4())),
+			ID:        fmt.Sprintf("%s", uuid.NewV4()),
 			CreatedAt: time.Now().UTC().UnixNano(),
 		},
-		ClientID:    sql.NullString{String: clientID, Valid: true},
-		UserID:      sql.NullString{String: userID, Valid: true},
-		Code:        fmt.Sprintf("%s", uuid.Must(uuid.NewV4())),
+		ClientID: sql.NullString{String: clientID, Valid: true},
+		UserID:   sql.NullString{String: userID, Valid: true},
+		// Code:        fmt.Sprintf("%s", uuid.Must(uuid.NewV4())),
+		Code:        fmt.Sprintf("%s", uuid.NewV4()),
 		RedirectURI: redirectURI,
 		Scope:       scope,
 		ExpiresIn:   expiresIn,

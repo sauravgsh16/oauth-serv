@@ -33,11 +33,17 @@ func RunServer() error {
 	uService := service.NewUserService(uStore)
 	uHandler := handler.NewUserHandler(uService)
 
+	// init auth layers
+	aServ := service.NewAuthorizeService()
+	ahandler := handler.NewAuthorizeHandler(aServ)
+
 	// TODO: WRAP ALL HANDLERS WITH ServeHTTP
 	// TODO: handler interface
 	router.HandleFunc("/client/register", cHandler.Register).Methods("POST")
 	router.HandleFunc("/user/register", uHandler.Register).Methods("POST")
 	router.HandleFunc("/user/login", uHandler.Login).Methods("POST")
+
+	router.HandleFunc("/authorize", ahandler.Authorize).Methods("GET")
 
 	srv := &http.Server{
 		Handler:      router,

@@ -20,7 +20,8 @@ type User struct {
 func NewUser(roleID, username, pwd string) *User {
 	return &User{
 		Common: Common{
-			ID:        fmt.Sprintf("%s", uuid.Must(uuid.NewV4())),
+			// ID:        fmt.Sprintf("%s", uuid.Must(uuid.NewV4())),
+			ID:        fmt.Sprintf("%s", uuid.NewV4()),
 			CreatedAt: time.Now().UTC().UnixNano(),
 		},
 		RoleID:   sql.NullString{String: roleID, Valid: true},
